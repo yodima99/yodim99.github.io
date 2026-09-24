@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文化祭 備品・机 移動＆配布・回収管理システム</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- 上部ナビバー (画面モード切替) -->
+    <header class="app-header">
+      <div class="header-inner">
+        <h1 class="logo">🏫 文化祭 設備管理</h1>
+        <nav class="view-nav">
+          <button id="nav-field" class="nav-btn active" onclick="switchView('field')">📱 現場スマホ</button>
+          <button id="nav-hq" class="nav-btn" onclick="switchView('hq')">🖥️ 本部PC</button>
+          <button id="nav-admin" class="nav-btn" onclick="switchView('admin')">🔒 管理者</button>
+        </nav>
+      </div>
+    </header>
+
+    <main class="main-content">
+      
+      <!-- ======================================================= -->
+      <!-- 📱 現場委員用ビュー (ユーザーデザイン完全再現) -->
+      <!-- ======================================================= -->
+      <section id="view-field" class="view-section active">
+        <div class="phone-container">
+          
+          <!-- --------------------------------------------------- -->
+          <!-- ページ1: フロア一覧・進捗トップ (送付画像 2ページ目) -->
+          <!-- --------------------------------------------------- -->
+          <div id="page-1" class="page-screen active">
+            <div class="p1-container">
+              <!-- 左側: 5層の立体パースフロア図 & 30%ゲージ -->
+              <div class="p1-floors-stack">
+                
+                <div class="p1-floor-row" onclick="jumpToFloor(5)">
+                  <div class="p1-iso-layer f5"></div>
+                  <span class="p1-floor-num">5F</span>
+                  <div class="p1-gauge" id="p1-gauge-5">30%</div>
+                </div>
+
+                <div class="p1-floor-row" onclick="jumpToFloor(4)">
+                  <div class="p1-iso-layer f4"></div>
+                  <span class="p1-floor-num">4F</span>
+                  <div class="p1-gauge" id="p1-gauge-4">30%</div>
+                </div>
+
+                <div class="p1-floor-row" onclick="jumpToFloor(3)">
+                  <div class="p1-iso-layer f3"></div>
+                  <span class="p1-floor-num">3F</span>
+                  <div class="p1-gauge" id="p1-gauge-3">30%</div>
+                </div>
+
+                <div class="p1-floor-row" onclick="jumpToFloor(2)">
+                  <div class="p1-iso-layer f2"></div>
+                  <span class="p1-floor-num">2F</span>
+                  <div class="p1-gauge" id="p1-gauge-2">30%</div>
+                </div>
+
+                <div class="p1-floor-row" onclick="jumpToFloor(1)">
+                  <div class="p1-iso-layer f1"></div>
+                  <span class="p1-floor-num">1F</span>
+                  <div class="p1-gauge" id="p1-gauge-1">30%</div>
+                </div>
+
+              </div>
+
+              <!-- 下部: 「撤 収」ピル & 日時 -->
+              <div class="p1-footer">
+                <div class="pill-box">
+                  <div class="pill-main">撤 収</div>
+                  <div class="pill-sub">実 施 中</div>
+                </div>
+                <div class="datetime-str" id="p1-clock">
+                  2026年11月01日(日) 15 : 32
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- --------------------------------------------------- -->
+          <!-- ページ2: フロアマップ・上下スライド (送付画像 3ページ目) -->
+          <!-- --------------------------------------------------- -->
+          <div id="page-2" class="page-screen">
+            <div class="p2-container" id="p2-swipe-area">
+              
+              <!-- 戻るボタン -->
+              <button class="btn-top-back" onclick="goToPage(1)">◀ トップ一覧</button>
+
+              <!-- 上下スライドするフロアマップグラフィックエリア -->
+              <div class="p2-map-viewport">
+                
+                <!-- 上の階の薄い背景影 -->
+                <div class="p2-bg-layer-top" id="p2-bg-top"></div>
+
+                <!-- 中央: アクティブな斜め立体フロアマップ -->
+                <div class="p2-main-map-card" id="p2-main-card">
+                  <div class="p2-iso-plane">
+                    <!-- フロア内の教室スポットピン (◎) -->
+                    <div class="map-pin pin-a" onclick="openRoomSheet('room-3a')" title="2-D">
+                      <div class="pin-outer-ring"><div class="pin-inner-dot"></div></div>
+                    </div>
+                    <div class="map-pin pin-b" onclick="openRoomSheet('room-3b')" title="2-E">
+                      <div class="pin-outer-ring"><div class="pin-inner-dot"></div></div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 下の階の薄い背景影 -->
+                <div class="p2-bg-layer-bottom" id="p2-bg-bottom"></div>
+
+              </div>
+
+              <!-- 右側: タップ可能な階数表示インジケーター (5F〜1F) -->
+              <div class="p2-right-floor-nav">
+                <div class="floor-nav-item" id="fnav-5" onclick="jumpToFloor(5)">5F</div>
+                <div class="floor-nav-item" id="fnav-4" onclick="jumpToFloor(4)">4F</div>
+                <div class="floor-nav-item active" id="fnav-3" onclick="jumpToFloor(3)">3F</div>
+                <div class="floor-nav-item" id="fnav-2" onclick="jumpToFloor(2)">2F</div>
+                <div class="floor-nav-item" id="fnav-1" onclick="jumpToFloor(1)">1F</div>
+              </div>
+
+              <!-- 下部: 3つのグレー丸型フィルターボタン -->
+              <div class="p2-bottom-filters">
+                <button class="round-filter-btn" onclick="openRoomSheet('room-3a')">机・椅子</button>
+                <button class="round-filter-btn" onclick="openRoomSheet('room-3a')">べニア</button>
+                <button class="round-filter-btn" onclick="openRoomSheet('room-3a')">暗幕</button>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- --------------------------------------------------- -->
+          <!-- ページ3: 団体名・教室備品状況シート (送付画像 4ページ目) -->
+          <!-- --------------------------------------------------- -->
+          <div id="page-3" class="page-screen">
+            <div class="p3-container">
+              
+              <!-- 上部: 縮小マップ表示 -->
+              <div class="p3-mini-map-header">
+                <button class="btn-top-back" onclick="goToPage(2)">◀ マップへ戻る</button>
+                <div class="p3-mini-iso">
+                  <div class="mini-pin">
+                    <div class="pin-outer-ring"><div class="pin-inner-dot"></div></div>
+                  </div>
+                  <span class="p3-floor-badge" id="p3-floor-badge-text">3F</span>
+                </div>
+              </div>
+
+              <!-- 下部ホワイトシート -->
+              <div class="p3-white-sheet">
+                
+                <!-- 団体名・教室コード -->
+                <div class="p3-group-header">
+                  <div class="p3-group-title" id="p3-title-group">団 体 名</div>
+                  <div class="p3-group-sub">
+                    <span id="p3-title-parent">母団体名</span>
+                    <span class="p3-code-tag"><span id="p3-title-floor">3F</span> <strong id="p3-title-code">2−D</strong></span>
+                  </div>
+                </div>
+
+                <div class="p3-divider"></div>
+
+                <!-- 生徒机 (クリックで番号詳細モーダル表示) -->
+                <div class="p3-item-row" onclick="openModalDetail('教室の机')">
+                  <div class="p3-item-label">生徒 机</div>
+                  <div class="p3-item-calc">
+                    <span class="lbl-grey">もともと</span> <span class="val-num" id="p3-desk-orig">40</span>
+                    <span class="lbl-arrow">→</span>
+                    <span class="lbl-grey">運出</span> <span class="val-num" id="p3-desk-actual">21</span>
+                    <span class="lbl-grey">（残し</span> <span class="val-num-sub" id="p3-desk-remain">19</span><span class="lbl-grey">）</span>
+                  </div>
+                  <button class="btn-pill-green" id="p3-btn-desk">完了</button>
+                </div>
+
+                <!-- 生徒椅子 (クリックで番号詳細モーダル表示) -->
+                <div class="p3-item-row" onclick="openModalDetail('教室の椅子')">
+                  <div class="p3-item-label">生徒椅子</div>
+                  <div class="p3-item-calc">
+                    <span class="lbl-grey">もともと</span> <span class="val-num" id="p3-chair-orig">40</span>
+                    <span class="lbl-arrow">→</span>
+                    <span class="lbl-grey">運出</span> <span class="val-num" id="p3-chair-actual">7</span>
+                    <span class="lbl-grey">（残し</span> <span class="val-num-sub" id="p3-chair-remain">33</span><span class="lbl-grey">）</span>
+                  </div>
+                  <button class="btn-pill-green" id="p3-btn-chair">完了</button>
+                </div>
+
+                <div class="p3-divider"></div>
+
+                <!-- 下段 3列グリッド (ベニヤ・暗幕・延長コード) -->
+                <div class="p3-sub-grid">
+                  
+                  <div class="p3-sub-col">
+                    <div class="p3-sub-title">べニア</div>
+                    <div class="p3-sub-num" id="p3-veneer-val">４<span class="p3-sub-note">（105〜108）</span></div>
+                    <button class="btn-pill-red" id="p3-btn-veneer" onclick="toggleSubItemStatus('ベニヤ板', event)">未着手</button>
+                  </div>
+
+                  <div class="p3-sub-col">
+                    <div class="p3-sub-title">暗幕</div>
+                    <div class="p3-sub-num" id="p3-curtain-val">２<span class="p3-sub-note">（特大３、８）</span></div>
+                    <button class="btn-pill-red" id="p3-btn-curtain" onclick="toggleSubItemStatus('暗幕', event)">未着手</button>
+                  </div>
+
+                  <div class="p3-sub-col">
+                    <div class="p3-sub-title">延長コード</div>
+                    <div class="p3-sub-num" id="p3-cord-val">なし</div>
+                    <button class="btn-pill-red" id="p3-btn-cord" onclick="toggleSubItemStatus('延長コード', event)">未着手</button>
+                  </div>
+
+                </div>
+
+                <!-- 数値簡単変更パネル -->
+                <div class="p3-counter-drawer">
+                  <div class="drawer-title">🔢 運出/回収数の変更</div>
+                  <div id="p3-counter-rows"></div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- --------------------------------------------------- -->
+          <!-- ページ4: 備品移動詳細モーダル (送付画像 5ページ目) -->
+          <!-- --------------------------------------------------- -->
+          <div id="modal-detail" class="modal-backdrop hidden">
+            <div class="p5-sheet-card">
+              
+              <!-- 団体名 3F 2-D -->
+              <div class="p5-header">
+                <div class="p5-title">団 体 名</div>
+                <div class="p5-sub">母団体名 <span class="p5-code">３F <strong>２−Ｄ</strong></span></div>
+                <button class="btn-modal-close" onclick="closeModalDetail()">✕</button>
+              </div>
+
+              <div class="p5-body">
+                <div class="p5-section-label">備 品 詳 細</div>
+                
+                <!-- 生徒机 サマリー -->
+                <div class="p5-summary-bar">
+                  <div class="p5-circle-gauge" id="p5-gauge-val">30%</div>
+                  <div class="p5-summary-text">
+                    <span id="p5-item-title">生徒 机</span>
+                    <span class="lbl-grey">もともと</span> <strong id="p5-orig">40</strong>
+                    <span class="lbl-arrow">→</span>
+                    <span class="lbl-grey">運出</span> <strong id="p5-actual">21</strong>
+                    <span class="lbl-grey">（残し</span> <span id="p5-remain">19</span><span class="lbl-grey">）</span>
+                  </div>
+                </div>
+
+                <!-- 移動先目的地 リスト -->
+                <div class="p5-dest-list">
+                  
+                  <div class="p5-dest-row">
+                    <div class="p5-dest-col1">番号</div>
+                    <div class="p5-dest-col2">１〜19<br><strong>移動なし</strong></div>
+                    <button class="btn-pill-green">完了</button>
+                  </div>
+
+                  <div class="p5-dest-row">
+                    <div class="p5-dest-col1"></div>
+                    <div class="p5-dest-col2">20〜35<br><strong>２−Ｅへ</strong></div>
+                    <button class="btn-pill-yellow">移動中</button>
+                  </div>
+
+                  <div class="p5-dest-row">
+                    <div class="p5-dest-col1"></div>
+                    <div class="p5-dest-col2">35〜40<br><strong>体育館へ</strong></div>
+                    <button class="btn-pill-red">未着手</button>
+                  </div>
+
+                </div>
+
+                <!-- 波線カットアウト効果 -->
+                <div class="p5-wavy-line"></div>
+
+                <!-- ベニヤ & 暗幕 完了カード -->
+                <div class="p5-sub-completed-list">
+                  <div class="p5-comp-row">
+                    <div>
+                      <span class="comp-title">べニア</span><br>
+                      <strong class="comp-val">4</strong> <span class="comp-note">（105〜108）</span>
+                    </div>
+                    <button class="btn-pill-green-large">完了</button>
+                  </div>
+
+                  <div class="p5-comp-row">
+                    <div>
+                      <span class="comp-title">暗幕</span><br>
+                      <strong class="comp-val">2</strong> <span class="comp-note">（特大3、8）</span>
+                    </div>
+                    <button class="btn-pill-green-large">完了</button>
+                  </div>
+                </div>
+
+              </div>
+
+              <div class="p5-footer">
+                <button class="btn-close-large" onclick="closeModalDetail()">閉じる</button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- 🖥️ 本部PCモニタリングビュー -->
+      <!-- ======================================================= -->
+      <section id="view-hq" class="view-section">
+        <div class="card">
+          <h2>🖥️ 本部リアルタイムモニタリング</h2>
+          <div class="stats-grid">
+            <div class="stat-card">
+              <div class="stat-title">全体達成率</div>
+              <div id="hq-overall-progress" class="stat-value">0%</div>
+              <div class="progress-bar-container">
+                <div id="hq-overall-bar" class="progress-bar-fill" style="width: 0%;"></div>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="stat-title">完了教室 / 全教室</div>
+              <div id="hq-completed-rooms" class="stat-value">0 / 0</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>📊 教室別 備品状況マトリクス表</h3>
+          <div class="table-responsive">
+            <table class="matrix-table">
+              <thead>
+                <tr id="matrix-header">
+                  <th>教室 / エリア</th>
+                  <th>状態</th>
+                </tr>
+              </thead>
+              <tbody id="matrix-body"></tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ======================================================= -->
+      <!-- 🔒 管理者設定ビュー -->
+      <!-- ======================================================= -->
+      <section id="view-admin" class="view-section">
+        <div id="admin-auth-panel" class="card auth-card">
+          <h2>🔒 管理者認証</h2>
+          <div class="auth-form">
+            <input type="password" id="admin-passcode" placeholder="パスコードを入力 (1234)" class="text-input">
+            <button class="btn btn-primary" onclick="checkAdminPasscode()">ログイン</button>
+          </div>
+        </div>
+
+        <div id="admin-content" class="admin-content hidden">
+          <div class="card">
+            <h2>🔄 フェーズ切り替え設定</h2>
+            <div class="phase-switch-buttons">
+              <button id="btn-phase-prep" class="btn btn-phase" onclick="setPhase('prep')">🚚 準備フェーズ</button>
+              <button id="btn-phase-clean" class="btn btn-phase" onclick="setPhase('clean')">🧹 撤収フェーズ</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
