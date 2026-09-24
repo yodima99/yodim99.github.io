@@ -3,373 +3,399 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>文化祭 備品・机 移動＆配布・回収管理システム</title>
-  <link rel="stylesheet" href="style.css">
+  <title>鳳櫻祭2026実行委員会オリジナルトレーナー ONLINE STORE</title>
+  <meta name="description" content="鳳櫻祭2026実行委員会オリジナルトレーナーのオンライン申込ページ。">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;800&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons & Confetti CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-  <div id="app">
-    <!-- 上部ナビバー (画面モード切替) -->
+
+  <div class="app-container">
+    <!-- HEADER NAVBAR -->
     <header class="app-header">
-      <div class="header-inner">
-        <h1 class="logo">🏫 文化祭 設備管理</h1>
-        <nav class="view-nav">
-          <button id="nav-field" class="nav-btn active" onclick="switchView('field')">📱 現場スマホ</button>
-          <button id="nav-hq" class="nav-btn" onclick="switchView('hq')">🖥️ 本部PC</button>
-          <button id="nav-admin" class="nav-btn" onclick="switchView('admin')">🔒 管理者</button>
-        </nav>
+      <a href="#" class="brand-logo" onclick="switchStep(1); return false;">
+        <span class="brand-title">鳳櫻祭2026 OFFICIAL STORE</span>
+        <span class="brand-sub">実行委員会オリジナルグッズ申込</span>
+      </a>
+
+      <div class="header-icons">
+        <button class="header-icon-btn" onclick="goToFormStep()" title="カート">
+          <i data-lucide="shopping-bag" style="width:20px; height:20px;"></i>
+        </button>
       </div>
     </header>
 
-    <main class="main-content">
-      
-      <!-- ======================================================= -->
-      <!-- 📱 現場委員用ビュー (ユーザーデザイン完全再現) -->
-      <!-- ======================================================= -->
-      <section id="view-field" class="view-section active">
-        <div class="phone-container">
+    <!-- STEPPER PROGRESS NAV -->
+    <div class="stepper-nav" id="stepperNav">
+      <div class="step-item active" id="stepIndicator1">
+        <span class="step-number">1</span>
+        <span>PRODUCT</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="stepIndicator2">
+        <span class="step-number">2</span>
+        <span>ORDER FORM</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="stepIndicator3">
+        <span class="step-number">3</span>
+        <span>CONFIRM</span>
+      </div>
+      <div class="step-divider"></div>
+      <div class="step-item" id="stepIndicator4">
+        <span class="step-number">4</span>
+        <span>COMPLETE</span>
+      </div>
+    </div>
+
+    <!-- ==========================================
+         VIEW 1: PRODUCT LANDING PAGE (商品詳細)
+    =========================================== -->
+    <section class="view-section active" id="view1">
+      <div class="product-grid">
+        <!-- LEFT: PRODUCT IMAGE -->
+        <div class="product-gallery">
+          <div class="main-image-wrapper">
+            <img id="mainProductImg" src="assets/sweatshirt.jpg" alt="鳳櫻祭2026実行委員会オリジナルトレーナー">
+          </div>
+        </div>
+
+        <!-- RIGHT: PRODUCT DETAILS & PREORDER ACTION -->
+        <div class="product-details">
+          <span class="category-tag">鳳櫻祭 2026 // OFFICIAL PREORDER</span>
+          <h1 class="product-title">鳳櫻祭2026実行委員会オリジナルトレーナー</h1>
           
-          <!-- --------------------------------------------------- -->
-          <!-- ページ1: フロア一覧・進捗トップ (送付画像 2ページ目) -->
-          <!-- --------------------------------------------------- -->
-          <div id="page-1" class="page-screen active">
-            <div class="p1-container">
-              <!-- 左側: 5層の立体パースフロア図 & 30%ゲージ -->
-              <div class="p1-floors-stack">
-                
-                <div class="p1-floor-row" onclick="jumpToFloor(5)">
-                  <div class="p1-iso-layer f5"></div>
-                  <span class="p1-floor-num">5F</span>
-                  <div class="p1-gauge" id="p1-gauge-5">30%</div>
-                </div>
-
-                <div class="p1-floor-row" onclick="jumpToFloor(4)">
-                  <div class="p1-iso-layer f4"></div>
-                  <span class="p1-floor-num">4F</span>
-                  <div class="p1-gauge" id="p1-gauge-4">30%</div>
-                </div>
-
-                <div class="p1-floor-row" onclick="jumpToFloor(3)">
-                  <div class="p1-iso-layer f3"></div>
-                  <span class="p1-floor-num">3F</span>
-                  <div class="p1-gauge" id="p1-gauge-3">30%</div>
-                </div>
-
-                <div class="p1-floor-row" onclick="jumpToFloor(2)">
-                  <div class="p1-iso-layer f2"></div>
-                  <span class="p1-floor-num">2F</span>
-                  <div class="p1-gauge" id="p1-gauge-2">30%</div>
-                </div>
-
-                <div class="p1-floor-row" onclick="jumpToFloor(1)">
-                  <div class="p1-iso-layer f1"></div>
-                  <span class="p1-floor-num">1F</span>
-                  <div class="p1-gauge" id="p1-gauge-1">30%</div>
-                </div>
-
-              </div>
-
-              <!-- 下部: 「撤 収」ピル & 日時 -->
-              <div class="p1-footer">
-                <div class="pill-box">
-                  <div class="pill-main">撤 収</div>
-                  <div class="pill-sub">実 施 中</div>
-                </div>
-                <div class="datetime-str" id="p1-clock">
-                  2026年11月01日(日) 15 : 32
-                </div>
-              </div>
-            </div>
+          <div class="price-box">
+            <span class="current-price">¥4,000</span>
+            <span class="price-tax">税込（1枚）</span>
           </div>
 
-          <!-- --------------------------------------------------- -->
-          <!-- ページ2: フロアマップ・上下スライド (送付画像 3ページ目) -->
-          <!-- --------------------------------------------------- -->
-          <div id="page-2" class="page-screen">
-            <div class="p2-container" id="p2-swipe-area">
-              
-              <!-- 戻るボタン -->
-              <button class="btn-top-back" onclick="goToPage(1)">◀ トップ一覧</button>
+          <p class="product-desc">
+            10.0オンス T／Cクルーネック スウェット（裏起毛）。<br>
+            ふんわりと暖かく肌触りの良い裏起毛仕様。鳳櫻祭2026の限定オリジナルトレーナーです。
+          </p>
 
-              <!-- 上下スライドするフロアマップグラフィックエリア -->
-              <div class="p2-map-viewport">
-                
-                <!-- 上の階の薄い背景影 -->
-                <div class="p2-bg-layer-top" id="p2-bg-top"></div>
+          <button class="btn btn-primary btn-lg" onclick="goToFormStep()">
+            カートに追加する (申し込む)
+          </button>
 
-                <!-- 中央: アクティブな斜め立体フロアマップ -->
-                <div class="p2-main-map-card" id="p2-main-card">
-                  <div class="p2-iso-plane">
-                    <!-- フロア内の教室スポットピン (◎) -->
-                    <div class="map-pin pin-a" onclick="openRoomSheet('room-3a')" title="2-D">
-                      <div class="pin-outer-ring"><div class="pin-inner-dot"></div></div>
-                    </div>
-                    <div class="map-pin pin-b" onclick="openRoomSheet('room-3b')" title="2-E">
-                      <div class="pin-outer-ring"><div class="pin-inner-dot"></div></div>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- 下の階の薄い背景影 -->
-                <div class="p2-bg-layer-bottom" id="p2-bg-bottom"></div>
-
-              </div>
-
-              <!-- 右側: タップ可能な階数表示インジケーター (5F〜1F) -->
-              <div class="p2-right-floor-nav">
-                <div class="floor-nav-item" id="fnav-5" onclick="jumpToFloor(5)">5F</div>
-                <div class="floor-nav-item" id="fnav-4" onclick="jumpToFloor(4)">4F</div>
-                <div class="floor-nav-item active" id="fnav-3" onclick="jumpToFloor(3)">3F</div>
-                <div class="floor-nav-item" id="fnav-2" onclick="jumpToFloor(2)">2F</div>
-                <div class="floor-nav-item" id="fnav-1" onclick="jumpToFloor(1)">1F</div>
-              </div>
-
-              <!-- 下部: 3つのグレー丸型フィルターボタン -->
-              <div class="p2-bottom-filters">
-                <button class="round-filter-btn" onclick="openRoomSheet('room-3a')">机・椅子</button>
-                <button class="round-filter-btn" onclick="openRoomSheet('room-3a')">べニア</button>
-                <button class="round-filter-btn" onclick="openRoomSheet('room-3a')">暗幕</button>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- --------------------------------------------------- -->
-          <!-- ページ3: 団体名・教室備品状況シート (送付画像 4ページ目) -->
-          <!-- --------------------------------------------------- -->
-          <div id="page-3" class="page-screen">
-            <div class="p3-container">
-              
-              <!-- 上部: 縮小マップ表示 -->
-              <div class="p3-mini-map-header">
-                <button class="btn-top-back" onclick="goToPage(2)">◀ マップへ戻る</button>
-                <div class="p3-mini-iso">
-                  <div class="mini-pin">
-                    <div class="pin-outer-ring"><div class="pin-inner-dot"></div></div>
-                  </div>
-                  <span class="p3-floor-badge" id="p3-floor-badge-text">3F</span>
-                </div>
-              </div>
-
-              <!-- 下部ホワイトシート -->
-              <div class="p3-white-sheet">
-                
-                <!-- 団体名・教室コード -->
-                <div class="p3-group-header">
-                  <div class="p3-group-title" id="p3-title-group">団 体 名</div>
-                  <div class="p3-group-sub">
-                    <span id="p3-title-parent">母団体名</span>
-                    <span class="p3-code-tag"><span id="p3-title-floor">3F</span> <strong id="p3-title-code">2−D</strong></span>
-                  </div>
-                </div>
-
-                <div class="p3-divider"></div>
-
-                <!-- 生徒机 (クリックで番号詳細モーダル表示) -->
-                <div class="p3-item-row" onclick="openModalDetail('教室の机')">
-                  <div class="p3-item-label">生徒 机</div>
-                  <div class="p3-item-calc">
-                    <span class="lbl-grey">もともと</span> <span class="val-num" id="p3-desk-orig">40</span>
-                    <span class="lbl-arrow">→</span>
-                    <span class="lbl-grey">運出</span> <span class="val-num" id="p3-desk-actual">21</span>
-                    <span class="lbl-grey">（残し</span> <span class="val-num-sub" id="p3-desk-remain">19</span><span class="lbl-grey">）</span>
-                  </div>
-                  <button class="btn-pill-green" id="p3-btn-desk">完了</button>
-                </div>
-
-                <!-- 生徒椅子 (クリックで番号詳細モーダル表示) -->
-                <div class="p3-item-row" onclick="openModalDetail('教室の椅子')">
-                  <div class="p3-item-label">生徒椅子</div>
-                  <div class="p3-item-calc">
-                    <span class="lbl-grey">もともと</span> <span class="val-num" id="p3-chair-orig">40</span>
-                    <span class="lbl-arrow">→</span>
-                    <span class="lbl-grey">運出</span> <span class="val-num" id="p3-chair-actual">7</span>
-                    <span class="lbl-grey">（残し</span> <span class="val-num-sub" id="p3-chair-remain">33</span><span class="lbl-grey">）</span>
-                  </div>
-                  <button class="btn-pill-green" id="p3-btn-chair">完了</button>
-                </div>
-
-                <div class="p3-divider"></div>
-
-                <!-- 下段 3列グリッド (ベニヤ・暗幕・延長コード) -->
-                <div class="p3-sub-grid">
-                  
-                  <div class="p3-sub-col">
-                    <div class="p3-sub-title">べニア</div>
-                    <div class="p3-sub-num" id="p3-veneer-val">４<span class="p3-sub-note">（105〜108）</span></div>
-                    <button class="btn-pill-red" id="p3-btn-veneer" onclick="toggleSubItemStatus('ベニヤ板', event)">未着手</button>
-                  </div>
-
-                  <div class="p3-sub-col">
-                    <div class="p3-sub-title">暗幕</div>
-                    <div class="p3-sub-num" id="p3-curtain-val">２<span class="p3-sub-note">（特大３、８）</span></div>
-                    <button class="btn-pill-red" id="p3-btn-curtain" onclick="toggleSubItemStatus('暗幕', event)">未着手</button>
-                  </div>
-
-                  <div class="p3-sub-col">
-                    <div class="p3-sub-title">延長コード</div>
-                    <div class="p3-sub-num" id="p3-cord-val">なし</div>
-                    <button class="btn-pill-red" id="p3-btn-cord" onclick="toggleSubItemStatus('延長コード', event)">未着手</button>
-                  </div>
-
-                </div>
-
-                <!-- 数値簡単変更パネル -->
-                <div class="p3-counter-drawer">
-                  <div class="drawer-title">🔢 運出/回収数の変更</div>
-                  <div id="p3-counter-rows"></div>
-                </div>
-
+          <!-- ACCORDION DETAILS -->
+          <div class="accordion-group">
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion('acc1')">
+                <span>■ 商品仕様 / 素材</span>
+                <i data-lucide="chevron-down" style="width:16px;"></i>
+              </button>
+              <div class="accordion-content" id="acc1" style="display:block;">
+                商品名: 鳳櫻祭2026実行委員会オリジナルトレーナー<br>
+                仕様: 10.0オンス T／Cクルーネック スウェット（裏起毛）<br>
+                素材: 綿52%、ポリエステル48%、裏起毛<br>
+                カラー: NAVY（ネイビー一色限定）
               </div>
             </div>
-          </div>
 
-          <!-- --------------------------------------------------- -->
-          <!-- ページ4: 備品移動詳細モーダル (送付画像 5ページ目) -->
-          <!-- --------------------------------------------------- -->
-          <div id="modal-detail" class="modal-backdrop hidden">
-            <div class="p5-sheet-card">
-              
-              <!-- 団体名 3F 2-D -->
-              <div class="p5-header">
-                <div class="p5-title">団 体 名</div>
-                <div class="p5-sub">母団体名 <span class="p5-code">３F <strong>２−Ｄ</strong></span></div>
-                <button class="btn-modal-close" onclick="closeModalDetail()">✕</button>
-              </div>
-
-              <div class="p5-body">
-                <div class="p5-section-label">備 品 詳 細</div>
-                
-                <!-- 生徒机 サマリー -->
-                <div class="p5-summary-bar">
-                  <div class="p5-circle-gauge" id="p5-gauge-val">30%</div>
-                  <div class="p5-summary-text">
-                    <span id="p5-item-title">生徒 机</span>
-                    <span class="lbl-grey">もともと</span> <strong id="p5-orig">40</strong>
-                    <span class="lbl-arrow">→</span>
-                    <span class="lbl-grey">運出</span> <strong id="p5-actual">21</strong>
-                    <span class="lbl-grey">（残し</span> <span id="p5-remain">19</span><span class="lbl-grey">）</span>
-                  </div>
-                </div>
-
-                <!-- 移動先目的地 リスト -->
-                <div class="p5-dest-list">
-                  
-                  <div class="p5-dest-row">
-                    <div class="p5-dest-col1">番号</div>
-                    <div class="p5-dest-col2">１〜19<br><strong>移動なし</strong></div>
-                    <button class="btn-pill-green">完了</button>
-                  </div>
-
-                  <div class="p5-dest-row">
-                    <div class="p5-dest-col1"></div>
-                    <div class="p5-dest-col2">20〜35<br><strong>２−Ｅへ</strong></div>
-                    <button class="btn-pill-yellow">移動中</button>
-                  </div>
-
-                  <div class="p5-dest-row">
-                    <div class="p5-dest-col1"></div>
-                    <div class="p5-dest-col2">35〜40<br><strong>体育館へ</strong></div>
-                    <button class="btn-pill-red">未着手</button>
-                  </div>
-
-                </div>
-
-                <!-- 波線カットアウト効果 -->
-                <div class="p5-wavy-line"></div>
-
-                <!-- ベニヤ & 暗幕 完了カード -->
-                <div class="p5-sub-completed-list">
-                  <div class="p5-comp-row">
-                    <div>
-                      <span class="comp-title">べニア</span><br>
-                      <strong class="comp-val">4</strong> <span class="comp-note">（105〜108）</span>
-                    </div>
-                    <button class="btn-pill-green-large">完了</button>
-                  </div>
-
-                  <div class="p5-comp-row">
-                    <div>
-                      <span class="comp-title">暗幕</span><br>
-                      <strong class="comp-val">2</strong> <span class="comp-note">（特大3、8）</span>
-                    </div>
-                    <button class="btn-pill-green-large">完了</button>
-                  </div>
-                </div>
-
-              </div>
-
-              <div class="p5-footer">
-                <button class="btn-close-large" onclick="closeModalDetail()">閉じる</button>
-              </div>
-
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- ======================================================= -->
-      <!-- 🖥️ 本部PCモニタリングビュー -->
-      <!-- ======================================================= -->
-      <section id="view-hq" class="view-section">
-        <div class="card">
-          <h2>🖥️ 本部リアルタイムモニタリング</h2>
-          <div class="stats-grid">
-            <div class="stat-card">
-              <div class="stat-title">全体達成率</div>
-              <div id="hq-overall-progress" class="stat-value">0%</div>
-              <div class="progress-bar-container">
-                <div id="hq-overall-bar" class="progress-bar-fill" style="width: 0%;"></div>
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion('acc2')">
+                <span>■ サイズ寸法表 (cm)</span>
+                <i data-lucide="chevron-down" style="width:16px;"></i>
+              </button>
+              <div class="accordion-content" id="acc2">
+                <table class="sheet-table" style="margin-top:8px;">
+                  <thead>
+                    <tr>
+                      <th>サイズ</th>
+                      <th>身丈</th>
+                      <th>身幅</th>
+                      <th>肩幅</th>
+                      <th>袖丈</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td><strong>S</strong></td><td>63</td><td>52</td><td>44</td><td>57</td></tr>
+                    <tr><td><strong>M</strong></td><td>67</td><td>55</td><td>48</td><td>60</td></tr>
+                    <tr><td><strong>L</strong></td><td>71</td><td>58</td><td>52</td><td>61</td></tr>
+                    <tr><td><strong>XL</strong></td><td>76</td><td>63</td><td>55</td><td>62</td></tr>
+                    <tr><td><strong>XXL</strong></td><td>81</td><td>68</td><td>58</td><td>63</td></tr>
+                    <tr><td><strong>XXXL</strong></td><td>84</td><td>73</td><td>61</td><td>64</td></tr>
+                  </tbody>
+                </table>
               </div>
             </div>
-            <div class="stat-card">
-              <div class="stat-title">完了教室 / 全教室</div>
-              <div id="hq-completed-rooms" class="stat-value">0 / 0</div>
+
+            <div class="accordion-item">
+              <button class="accordion-header" onclick="toggleAccordion('acc3')">
+                <span>■ 販売価格・注意事項</span>
+                <i data-lucide="chevron-down" style="width:16px;"></i>
+              </button>
+              <div class="accordion-content" id="acc3">
+                ※全学年・クラスでの最終発注枚数により、価格が「4,000円前後」で確定いたします。<br>
+                ※印刷仕様やデザインは調整により実物と多少変更となる可能性がございます。あらかじめご了承ください。
+              </div>
             </div>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="card">
-          <h3>📊 教室別 備品状況マトリクス表</h3>
-          <div class="table-responsive">
-            <table class="matrix-table">
-              <thead>
-                <tr id="matrix-header">
-                  <th>教室 / エリア</th>
-                  <th>状態</th>
-                </tr>
-              </thead>
-              <tbody id="matrix-body"></tbody>
-            </table>
-          </div>
+    <!-- ==========================================
+         VIEW 2: CHECKOUT / FORM (申込情報入力)
+    =========================================== -->
+    <section class="view-section" id="view2">
+      <div class="checkout-layout">
+        <div>
+          <h2 class="form-section-title">申込者情報の入力</h2>
+
+          <form id="orderForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="input-label">学年 <span class="req">*</span></label>
+                <select class="select-field" id="formGrade" required>
+                  <option value="3年" selected>3年</option>
+                  <option value="2年">2年</option>
+                  <option value="1年">1年</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label">クラス <span class="req">*</span></label>
+                <select class="select-field" id="formClass" required>
+                  <option value="A組" selected>A組</option>
+                  <option value="B組">B組</option>
+                  <option value="C組">C組</option>
+                  <option value="D組">D組</option>
+                  <option value="E組">E組</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label class="input-label">出席番号 <span class="req">*</span></label>
+                <input type="number" class="input-field" id="formNumber" min="1" max="50" placeholder="例: 14" required>
+              </div>
+
+              <div class="form-group span-2">
+                <label class="input-label">お名前（フルネーム） <span class="req">*</span></label>
+                <input type="text" class="input-field" id="formName" placeholder="山田 太郎" required>
+              </div>
+            </div>
+
+            <h2 class="form-section-title" style="margin-top:32px;">サイズごとの個数を選択</h2>
+            <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:16px;">
+              ※複数の異なるサイズを組み合わせて申し込みいただけます。必要なサイズの数量を [+] [-] で選択してください。
+            </p>
+
+            <!-- MULTI-SIZE QUANTITY SELECTOR LIST -->
+            <div class="multi-size-list">
+              <div class="size-qty-row" id="sizeRow_S">
+                <div class="size-info">
+                  <span class="size-badge">S</span>
+                  <span class="size-specs">身丈63 / 身幅52 / 肩幅44 / 袖丈57</span>
+                </div>
+                <div class="qty-counter">
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('S', -1)">-</button>
+                  <input type="number" class="counter-input" id="qty_S" value="0" min="0" max="10" readonly>
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('S', 1)">+</button>
+                </div>
+              </div>
+
+              <div class="size-qty-row has-qty" id="sizeRow_M">
+                <div class="size-info">
+                  <span class="size-badge">M</span>
+                  <span class="size-specs">身丈67 / 身幅55 / 肩幅48 / 袖丈60</span>
+                </div>
+                <div class="qty-counter">
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('M', -1)">-</button>
+                  <input type="number" class="counter-input" id="qty_M" value="1" min="0" max="10" readonly>
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('M', 1)">+</button>
+                </div>
+              </div>
+
+              <div class="size-qty-row" id="sizeRow_L">
+                <div class="size-info">
+                  <span class="size-badge">L</span>
+                  <span class="size-specs">身丈71 / 身幅58 / 肩幅52 / 袖丈61</span>
+                </div>
+                <div class="qty-counter">
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('L', -1)">-</button>
+                  <input type="number" class="counter-input" id="qty_L" value="0" min="0" max="10" readonly>
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('L', 1)">+</button>
+                </div>
+              </div>
+
+              <div class="size-qty-row" id="sizeRow_XL">
+                <div class="size-info">
+                  <span class="size-badge">XL</span>
+                  <span class="size-specs">身丈76 / 身幅63 / 肩幅55 / 袖丈62</span>
+                </div>
+                <div class="qty-counter">
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('XL', -1)">-</button>
+                  <input type="number" class="counter-input" id="qty_XL" value="0" min="0" max="10" readonly>
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('XL', 1)">+</button>
+                </div>
+              </div>
+
+              <div class="size-qty-row" id="sizeRow_XXL">
+                <div class="size-info">
+                  <span class="size-badge">XXL</span>
+                  <span class="size-specs">身丈81 / 身幅68 / 肩幅58 / 袖丈63</span>
+                </div>
+                <div class="qty-counter">
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('XXL', -1)">-</button>
+                  <input type="number" class="counter-input" id="qty_XXL" value="0" min="0" max="10" readonly>
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('XXL', 1)">+</button>
+                </div>
+              </div>
+
+              <div class="size-qty-row" id="sizeRow_XXXL">
+                <div class="size-info">
+                  <span class="size-badge">XXXL</span>
+                  <span class="size-specs">身丈84 / 身幅73 / 肩幅61 / 袖丈64</span>
+                </div>
+                <div class="qty-counter">
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('XXXL', -1)">-</button>
+                  <input type="number" class="counter-input" id="qty_XXXL" value="0" min="0" max="10" readonly>
+                  <button type="button" class="counter-btn" onclick="adjustSizeQty('XXXL', 1)">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group full-width" style="margin-top:16px;">
+              <label class="input-label">連絡事項・備考（任意）</label>
+              <input type="text" class="input-field" id="formNotes" placeholder="ご質問や連絡事項があれば記入してください">
+            </div>
+
+            <div style="display:flex; justify-content:space-between; gap:16px; margin-top:36px;">
+              <button type="button" class="btn btn-secondary" onclick="switchStep(1)">
+                ← 商品説明に戻る
+              </button>
+              <button type="submit" class="btn btn-primary" style="flex:1;">
+                確認画面へ進む →
+              </button>
+            </div>
+          </form>
         </div>
-      </section>
 
-      <!-- ======================================================= -->
-      <!-- 🔒 管理者設定ビュー -->
-      <!-- ======================================================= -->
-      <section id="view-admin" class="view-section">
-        <div id="admin-auth-panel" class="card auth-card">
-          <h2>🔒 管理者認証</h2>
-          <div class="auth-form">
-            <input type="password" id="admin-passcode" placeholder="パスコードを入力 (1234)" class="text-input">
-            <button class="btn btn-primary" onclick="checkAdminPasscode()">ログイン</button>
-          </div>
-        </div>
+        <!-- SIDEBAR CART SUMMARY -->
+        <div>
+          <div class="summary-box">
+            <h3 style="font-size:1rem; font-weight:800; margin-bottom:16px; border-bottom:1px solid var(--border-light); padding-bottom:8px;">ORDER SUMMARY</h3>
 
-        <div id="admin-content" class="admin-content hidden">
-          <div class="card">
-            <h2>🔄 フェーズ切り替え設定</h2>
-            <div class="phase-switch-buttons">
-              <button id="btn-phase-prep" class="btn btn-phase" onclick="setPhase('prep')">🚚 準備フェーズ</button>
-              <button id="btn-phase-clean" class="btn btn-phase" onclick="setPhase('clean')">🧹 撤収フェーズ</button>
+            <div style="display:flex; gap:12px; margin-bottom:16px;">
+              <img id="summaryThumb" src="assets/sweatshirt.jpg" style="width:60px; height:60px; object-fit:cover; border-radius:4px;" alt="選択中のトレーナー">
+              <div>
+                <div style="font-weight:700; font-size:0.85rem;">鳳櫻祭2026トレーナー</div>
+                <div style="font-size:0.75rem; color:var(--text-light);">NAVY（裏起毛）</div>
+              </div>
+            </div>
+
+            <div class="summary-item">
+              <span>選択中のサイズ内訳</span>
+              <span id="summarySizeBreakdown" style="font-weight:700; text-align:right;">M×1</span>
+            </div>
+
+            <div class="summary-item">
+              <span>合計購入枚数</span>
+              <span id="summaryQty" style="font-weight:700;">1枚</span>
+            </div>
+
+            <div class="summary-total">
+              <span>概算お支払合計</span>
+              <span id="summaryTotalPrice">約 ¥4,000</span>
+            </div>
+            <div style="font-size:0.7rem; color:var(--accent-amber); margin-top:6px; text-align:right;">
+              ※全体の発注数により多少変動します
             </div>
           </div>
         </div>
-      </section>
+      </div>
+    </section>
 
-    </main>
-  </div>
+    <!-- ==========================================
+         VIEW 3: CONFIRMATION (内容確認)
+    =========================================== -->
+    <section class="view-section" id="view3">
+      <div class="confirm-box">
+        <h2 class="form-section-title">ご注文内容の確認</h2>
+
+        <div class="confirm-info-grid">
+          <div class="confirm-row">
+            <span class="label">学年・クラス・番号</span>
+            <span class="val" id="confirmClassFull">3年 A組 14番</span>
+          </div>
+          <div class="confirm-row">
+            <span class="label">お名前</span>
+            <span class="val" id="confirmName">山田 太郎</span>
+          </div>
+          <div class="confirm-row">
+            <span class="label">商品名</span>
+            <span class="val">鳳櫻祭2026実行委員会オリジナルトレーナー</span>
+          </div>
+          <div class="confirm-row">
+            <span class="label">サイズ内訳 / 合計枚数</span>
+            <span class="val" id="confirmSizeQty">Mサイズ×1枚（合計1枚）</span>
+          </div>
+          <div class="confirm-row">
+            <span class="label">概算お支払合計金額</span>
+            <span class="val" id="confirmTotalPrice" style="font-size:1.2rem; color:var(--text-main);">約 ¥4,000</span>
+          </div>
+        </div>
+
+        <div style="font-size:0.8rem; color:var(--text-muted); margin-bottom:24px; line-height:1.6;">
+          ※全体購入数により価格が4,000円前後で確定いたします。<br>
+          ※デザインや仕様は制作の都合上、実物と多少変更となる場合がありますのでご了承ください。
+        </div>
+
+        <div style="display:flex; gap:16px; justify-content:space-between;">
+          <button class="btn btn-secondary" onclick="switchStep(2)">
+            ← 修正する
+          </button>
+          <button class="btn btn-primary btn-lg" onclick="executeOrderSubmission()">
+            この内容で申し込む（確定）
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         VIEW 4: SUCCESS (申込完了)
+    =========================================== -->
+    <section class="view-section" id="view4">
+      <div class="success-card">
+        <div class="success-icon">
+          <i data-lucide="check" style="width:32px; height:32px;"></i>
+        </div>
+
+        <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:8px;">THANK YOU FOR YOUR ORDER</h2>
+        <p style="color:var(--text-muted); font-size:0.9rem;">ご提示いただいた内容で申し込みを正常に受け付けました。</p>
+
+        <div>
+          <div class="order-id-badge" id="successOrderId">HOD-2026-0000</div>
+        </div>
+
+        <div style="display:flex; gap:12px; justify-content:center; margin-top:24px;">
+          <button class="btn btn-secondary" onclick="resetOrderForm()">
+            トップに戻る
+          </button>
+          <button class="btn btn-primary" onclick="window.print()">
+            注文控えを印刷
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div> <!-- /app-container -->
+
+  <footer style="text-align:center; padding:40px 0; color:var(--text-light); font-size:0.75rem; border-top:1px solid var(--border-light); margin-top:60px;">
+    <p>© 2026 鳳櫻祭実行委員会 OFFICIAL STORE</p>
+  </footer>
 
   <script src="app.js"></script>
 </body>
